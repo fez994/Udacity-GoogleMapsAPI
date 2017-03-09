@@ -31,7 +31,6 @@ function initMap() {
 		var title = libraries[i].title;
 		// create a marker per location, and put markers array
 		var marker = new google.maps.Marker({
-		map: map,
 		position: position,
 		title: title,
 		animation: google.maps.Animation.DROP,
@@ -44,21 +43,16 @@ function initMap() {
 	bounds.extend(marker.position);
 	// Create an onclick event to open an infowindow at each marker
 	
-	// I know that creating multiple function inside a loop is bad practice, but it's just a personal project, i would never do this on a proffesional enviroment
-
-
+	// I know that creating multiple function inside a loop is bad practice, but it's just a personal project, i would never do this on a proffesional environment
 	marker.addListener('click', function() {
 		populateInfoWindow(this, largeInfoWindow);
 	});
 
+	
+	document.getElementById('show-listings').addEventListener('click', showListings);
+	document.getElementById('hide-listings').addEventListener('click', hideListings);
 
 	
-
-
-	// this creates an onclick event to open an infowindow at each marker
-	marker.addListener('click', function(){
-		populateInfoWindow(this, largeInfoWindow);
-	});
 
 
 
@@ -84,6 +78,24 @@ function initMap() {
 
 	} // end for loop
 
+
+	// this function will loop throught the markers array and display them all
+	function showListings() {
+		var bounds = new google.maps.LatLngBounds();
+		//extend the boundaries of the map for each marker and display the marker
+		for (var i=0; i < markers.length; i++) {
+			markers[i].setMap(map);
+			bounds.extend(markers[i].position);
+		}
+		map.fitBounds(bounds);
+	}
+
+// this function will loop throught the listings and hide them all
+	function hideListings() {
+		for(var i= 0; i < markers.length; i++){
+			markers[i].setMap(null);
+		}
+	}
 
 }
 
